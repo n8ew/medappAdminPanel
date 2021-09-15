@@ -1,23 +1,27 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import DBContextProvider from './context/DBContext'
-
 import LoginPage from './components/LoginPage'
-import MainPage from "./components/MainPage";
+import MainPage from "./components/MainPage"
+import NavBar from './components/NavBar'
+
+import DbDataProvider from "./context/dbData/dbDataProvider";
+
+import './app.css'
 
 function App() {
 
   return (
     <div className="App">
-      <DBContextProvider>
+      <DbDataProvider>
+        <NavBar />
         <Router>
           <Switch>
             <Route exact path='/' component={ LoginPage } />
             <Route path='/main' component={ MainPage } />
           </Switch>
         </Router>
-      </DBContextProvider>
+      </DbDataProvider>
     </div>
   );
 }

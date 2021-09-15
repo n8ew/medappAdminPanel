@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+import DbDataContext from '../context/dbData/dbDataContext'
 import { useHistory } from 'react-router-dom'
 
 import { useFormik } from 'formik'
-import { DBContext } from '../context/DBContext'
 
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogActions from '@material-ui/core/DialogActions'
+import DialogContentText from '@material-ui/core/DialogContentText'
 
 import { makeStyles } from '@material-ui/core'
 
@@ -20,29 +21,57 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles({
    mainContainer: {
       marginTop: 50
+   },
+   formHolder: {
+      marginTop: 50,
+      display: 'flex',
+      justifyContent: "center",
+      alignItems: "center",
+   },
+   input: {
+      marginBottom: 20
+   },
+   btn: {
+      marginTop: 25,
+      marginBottom: 25,
+      width: 250,
+      alignSelf: "center"
+   },
+   extraBtn: {
+      textTransform: "lowercase",
+      width: 150,
+      marginTop: 25
    }
 })
 // form styles
 const formStyle = {
    display: 'flex',
-   flexDirection: 'column'
+   flexDirection: 'column',
+   width: "60%",
+   margin: "25px 0",
+   padding: "40px",
+   boxShadow: "2px 2px 4px rgba(0,0,0,0.3)"
 }
 
 const LoginPage = () => {
 
-   
-   const { logIn, setLoading, state } = useContext(DBContext)
    const history = useHistory()
-   useEffect(() => {
-      console.log(state.logedIn,'this is useEffect')
-   } ,[state.logedIn])
 
-   // DIALOG
+   const dbDataContext = useContext(DbDataContext)
+   const { loginAdmin, isLogged } = dbDataContext
+
+   useEffect(() => {
+      if(isLogged) {
+         history.push('/main')
+      }
+   }, [isLogged])
+
+   // DIALOG brak hasla
    // dialog state
-   const [dialogState, setDialogState] = useState(false)
-   // dialog functions
-   const handleDialogOpen = () => setDialogState(true)
-   const handleDialogClose = () => setDialogState(false)
+   const [hasloDialog,setHasloDialog] = useState(false)
+   // dialog dunctions
+   const handleHasloDialogOpen = () => setHasloDialog(true)
+   const handleHasloDialogClose = () => setHasloDialog(false)
 
    // FormikStuff
    // form validation
@@ -66,12 +95,9 @@ const LoginPage = () => {
          password: ''
       },
       validate,
-      onSubmit: data => {
-         if(!state.loading) {
-            setLoading()
-            logIn(data)
-            setLoading()
-         }
+      onSubmit: (data,{ resetForm }) => {
+        loginAdmin(data)
+        resetForm()
       }
    })
 
@@ -86,13 +112,14 @@ const LoginPage = () => {
          >
             Zaloguj sie do panelu administracyjnego
          </Typography>
-         <Container>
+         <Container className={ classes.formHolder }>
             <form style={ formStyle } onSubmit={ formik.handleSubmit }>
                <TextField
                   id='login'
                   name='login'
                   label='Login'
                   type='text'
+                  className={ classes.input }
                   value={ formik.values.login}
                   onChange={ formik.handleChange }
                />
@@ -101,6 +128,7 @@ const LoginPage = () => {
                   name='password'
                   label='Haslo'
                   type='password'
+                  className={ classes.input }
                   value={ formik.values.password }
                   onChange={ formik.handleChange }
                />
@@ -109,22 +137,39 @@ const LoginPage = () => {
                   color='primary'
                   size='large'
                   type='submit'
+                  className={ classes.btn }
                >Zaloguj</Button>
+               <Button
+                  variant='text'
+                  className={ classes.extraBtn }
+                  onClick={ handleHasloDialogOpen }
+               >
+                  Zapomiales hasla ?
+               </Button>
             </form>
          </Container>
          <Dialog
-            open={ dialogState }
-            onClose={ handleDialogClose }
+            open={ hasloDialog }
+            onClose={ handleHasloDialogClose }
          >
-            <DialogTitle>
-               Logowanie nie powiodlo sie.
+            <DialogTitle style={{ borderBottom: "1px solid #333"}}>
+               To zrozumiale, ale nie rob tego wiecej
             </DialogTitle>
+               <Container style={{ marginTop: "20px"}}>
+                  <DialogContentText>
+                     login: "admin"
+                  </DialogContentText>
+                  <DialogContentText>
+                     haslo: "admin"
+                  </DialogContentText>
+               </Container>
             <DialogActions>
                <Button
-                  onClick={ handleDialogClose }
+                  variant='contained'
                   color='primary'
+                  onClick={ handleHasloDialogClose }
                >
-                  Zamknij
+                  Zapamietam
                </Button>
             </DialogActions>
          </Dialog>

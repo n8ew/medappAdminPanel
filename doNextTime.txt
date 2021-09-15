@@ -1,0 +1,2 @@
+1.usuwanie testow
+2.dodawanie testow CALOSC
