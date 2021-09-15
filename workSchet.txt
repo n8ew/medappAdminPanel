@@ -1,0 +1,8 @@
+1.
+if (!login) { przedx do MainPage }
+else { opowiedni <Dialog>}
+2.
+MainPage landing view
+3.
+Context getAllTests()
+  "proxy": "https://ancient-fjord-13562.herokuapp.com"
