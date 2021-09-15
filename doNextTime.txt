@@ -1,2 +1,3 @@
-1.usuwanie testow
-2.dodawanie testow CALOSC
+1.deleteTest()
+2.DodajTest UI
+3.addTest()

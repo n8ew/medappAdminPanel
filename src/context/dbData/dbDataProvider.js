@@ -3,7 +3,7 @@ import axios from 'axios'
 import DbDataContext from './dbDataContext'
 import DbDataReducer from './dbDataReducer'
 import {
-   SET_LOADING, LOGIN_ADMIN, LOGOUT_ADMIN, GET_TESTS
+   SET_LOADING, LOGIN_ADMIN, LOGOUT_ADMIN, GET_TESTS, GET_TESTS_SCHEMAS
 } from '../types'
 
 const DbDataProvider = props => {
@@ -11,7 +11,8 @@ const DbDataProvider = props => {
    const initialState = {
       isLogged: false,
       loading: false,
-      tests: []
+      tests: [],
+      testsSchemas: []
    }
 
    const [state, dispatch] = useReducer(DbDataReducer, initialState)
@@ -40,6 +41,16 @@ const DbDataProvider = props => {
          payload: res.data.docs
       })
    }
+   // getTestsSchemas
+   const getTestsSchemas = async() => {
+      setLoading()
+      const res = await axios.get('/api/v1/testsSchema')
+      dispatch({
+         type: GET_TESTS_SCHEMAS,
+         payload: res.data.tests
+      })
+   }
+
 
    return (
       <DbDataContext.Provider
@@ -47,9 +58,11 @@ const DbDataProvider = props => {
             isLogged: state.isLogged,
             loading: state.loading,
             tests: state.tests,
+            testsSchemas: state.testsSchemas,
             loginAdmin,
             logoutAdmin,
-            getTests
+            getTests,
+            getTestsSchemas
          }}
       >
          { props.children }

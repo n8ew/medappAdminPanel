@@ -1,5 +1,5 @@
 import {
-   SET_LOADING, LOGIN_ADMIN, LOGOUT_ADMIN, GET_TESTS
+   SET_LOADING, LOGIN_ADMIN, LOGOUT_ADMIN, GET_TESTS, GET_TESTS_SCHEMAS
 } from '../types'
 
 // eslint-disable-next-line
@@ -26,6 +26,12 @@ export default (state, action) => {
          return {
             ...state,
             tests: action.payload,
+            loading: false
+         }
+      case GET_TESTS_SCHEMAS:
+         return {
+            ...state,
+            testsSchemas: action.payload,
             loading: false
          }
       default:
