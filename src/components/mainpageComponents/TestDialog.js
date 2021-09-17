@@ -9,25 +9,66 @@ import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
 import CloseIcon from '@material-ui/icons/Close';
 
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles({
+   rowHolder: {
+      display: 'flex'
+   },
+   heading: {
+      textTransform: 'uppercase',
+      marginTop: 20,
+      marginBottom: 20
+   },
+   label: {
+      marginRight: 20
+   },
+   btn: {
+      position: 'absolute',
+      bottom: 10,
+      right: 10
+   },
+   qrBtn: {
+      position: 'absolute',
+      right: 10,
+      bottom: 50
+   }
+})
+
 const TestDialog = ({ handeler, test }) => {
+
+   const classes = useStyles()
+
    return (
-      <Dialog open={ handeler.isOpen } onClose={ () => handeler.handleClose() }>
+      <Dialog open={ handeler.isOpen } onClose={ () => handeler.closeDialog() }>
          <DialogTitle style={{ borderBottom: "1px solid #333"}}>
-            { test._id }
+            Test ID: { test._id }
          </DialogTitle>
          <Container>
             <Typography
-               variant='h6'
-               component='h6'
+               variant='h5'
+               component='h5'
+               className={ classes.heading }
             >{ test.testName }
             </Typography>
             {test.params.map((param,index) => (
-               <Container key={ index }>
-                  <DialogContentText>holder</DialogContentText>
+               <Container className={ classes.rowHolder } key={ index }>
+                  <DialogContentText className={ classes.label }>{param.key} :</DialogContentText>
+                  <DialogContentText>{param.value}</DialogContentText>
                </Container>
             ))}
             <DialogActions>
-               <Button onClick={ () => handeler.closeDialog()}>
+               <Button
+                  color='primary'
+                  variant='contained'
+                  className={ classes.qrBtn }
+               >QR</Button>
+               <Button 
+                  color='secondary'
+                  variant='contained'
+                  className={ classes.btn }
+                  onClick={ () => handeler.closeDialog()}
+               >
                   <CloseIcon/>
                </Button>
             </DialogActions>

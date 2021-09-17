@@ -3,7 +3,7 @@ import axios from 'axios'
 import DbDataContext from './dbDataContext'
 import DbDataReducer from './dbDataReducer'
 import {
-   SET_LOADING, LOGIN_ADMIN, LOGOUT_ADMIN, GET_TESTS, GET_TESTS_SCHEMAS
+   SET_LOADING, LOGIN_ADMIN, LOGOUT_ADMIN, GET_TESTS, GET_TESTS_SCHEMAS, ADD_NEW_TEST, DELETE_TEST
 } from '../types'
 
 const DbDataProvider = props => {
@@ -50,6 +50,24 @@ const DbDataProvider = props => {
          payload: res.data.tests
       })
    }
+   // addNewTest
+   const addNewTest = async (data) => {
+      setLoading()
+      const res = await axios.post('/api/v1/docs', data)
+      dispatch({
+         type: ADD_NEW_TEST,
+         payload: res.data.docs
+      })
+   }
+   // deleteTest
+   const deleteTest = async (id) => {
+      setLoading()
+      await axios.delete(`/api/v1/docs/${id}`)
+      dispatch({
+         type: DELETE_TEST,
+         payload: id
+      })
+   }
 
 
    return (
@@ -62,7 +80,9 @@ const DbDataProvider = props => {
             loginAdmin,
             logoutAdmin,
             getTests,
-            getTestsSchemas
+            getTestsSchemas,
+            addNewTest,
+            deleteTest
          }}
       >
          { props.children }

@@ -1,3 +1,2 @@
-1.deleteTest()
-2.DodajTest UI
-3.addTest()
+1. QR code generator
+2. responsiv design

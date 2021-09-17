@@ -22,7 +22,7 @@ const MainPage = () => {
    const history = useHistory()
 
    const dbDataContext = useContext(DbDataContext)
-   const { isLogged, getTests, getTestsSchemas } = dbDataContext
+   const { isLogged, getTests, getTestsSchemas, tests } = dbDataContext
 
    useEffect(() => {
       if(!isLogged) {
@@ -33,7 +33,7 @@ const MainPage = () => {
    useEffect(() => {
       getTests()
       getTestsSchemas()
-   },[])
+   },[tests])
 
    return (
       <Container>

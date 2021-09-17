@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import DbDataContext from '../../context/dbData/dbDataContext'
 
 import TestDialog from './TestDialog'
+import MoveBackBtn from './MoveBackBtn'
 
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
@@ -10,7 +11,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Button from '@material-ui/core/Button'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { makeStyles } from '@material-ui/styles'
 
@@ -47,7 +47,7 @@ const useStyles = makeStyles({
 const Testy = ({ handeler }) => {
 
    const dbDataContext = useContext(DbDataContext)
-   const { tests } = dbDataContext
+   const { tests, deleteTest } = dbDataContext
 
    // Test for dialog state holder
    const [testForDialog,setTestForDialog] = useState('')
@@ -66,6 +66,8 @@ const Testy = ({ handeler }) => {
       dialogHandeler.openDialog()
    }
 
+   const handleDelete = id => deleteTest(id)
+
    const classes = useStyles()
 
    return (
@@ -78,22 +80,18 @@ const Testy = ({ handeler }) => {
             Testy
          </Typography>
          <List className={ classes.list } component='ul'>
-            {tests.map((test,index) => (
-               <ListItem key={ index } className={ classes.listItem }>
-                  <ListItemText primary={test._id} onClick={ () => setTest(test._id)} />
-                  <Button color='secondary'>
-                     <HighlightOffIcon />
-                  </Button>
-               </ListItem>
-            ))}
+            { tests.length === 0 ? 
+               (<Typography component='h5' align='center'>Lista testow jest pusta</Typography>) : 
+               tests.map((test,index) => (
+                  <ListItem key={ index } className={ classes.listItem }>
+                     <ListItemText style={{ cursor: "pointer" }} primary={"Test ID: " + test._id} onClick={ () => setTest(test._id)} />
+                     <Button color='secondary' onClick={ () => handleDelete(test._id)}>
+                        <HighlightOffIcon />
+                     </Button>
+                  </ListItem>
+            )) }
          </List>
-         <Button
-            color='primary'
-            className={ classes.backBtn }
-            onClick={ () => handeler.moveHome() }
-         >
-            <ArrowBackIcon fontSize='large'/>
-         </Button>
+         <MoveBackBtn btnHendeler={ handeler.moveHome } />
          {testForDialog?(<TestDialog handeler={ dialogHandeler } test={ testForDialog } />):""}
       </Container>
    )
