@@ -4,6 +4,9 @@ import DbDataContext from '../../context/dbData/dbDataContext'
 import TestDialog from './TestDialog'
 import MoveBackBtn from './MoveBackBtn'
 
+import { useTheme } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
+
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import List from '@material-ui/core/List'
@@ -28,6 +31,17 @@ const useStyles = makeStyles({
       padding: 20,
       borderRadius: 20,
       boxShadow: "2px 2px 4px rgba(0,0,0,0.3)"
+   },
+   smallList:{
+      marginTop: 50,
+      width: "100%",
+      padding: 20,
+      borderRadius: 20,
+      boxShadow: "2px 2px 4px rgba(0,0,0,0.3)"
+   },
+   smallBtn: {
+      position: 'relative',
+      right: -20
    },
    listItem: {
       marginBottom: 15,
@@ -72,24 +86,27 @@ const Testy = ({ handeler }) => {
 
    const handleDelete = id => deleteTest(id)
 
+   const theme = useTheme()
+   const screenSizeXSmall = useMediaQuery(theme.breakpoints.only('xs'))
+
    const classes = useStyles()
 
    return (
       <Container className={ classes.contentHolder }>
          <Typography
-            variant='h2'
-            component='h2'
+            variant={ screenSizeXSmall ? 'h3' : 'h2'}
+            component={ screenSizeXSmall ? 'h3' : 'h2'}
             align='center'
          >
             Testy
          </Typography>
-         <List className={ classes.list } component='ul'>
+         <List className={ screenSizeXSmall ? classes.smallList : classes.list } component='ul'>
             { tests.length === 0 ? 
                (<Typography component='h5' align='center'>Lista testow jest pusta</Typography>) : 
                tests.map((test,index) => (
                   <ListItem key={ index } className={ classes.listItem }>
                      <ListItemText style={{ cursor: "pointer" }} primary={"Test ID: " + test._id} onClick={ () => setTest(test._id)} />
-                     <Button color='secondary' onClick={ () => handleDelete(test._id)}>
+                     <Button className={ screenSizeXSmall && classes.smallBtn } color='secondary' onClick={ () => handleDelete(test._id)}>
                         <HighlightOffIcon />
                      </Button>
                   </ListItem>

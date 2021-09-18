@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom'
 
 import { useFormik } from 'formik'
 
+import { useTheme } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
+
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import TextField from '@material-ui/core/TextField'
@@ -28,6 +31,12 @@ const useStyles = makeStyles({
       justifyContent: "center",
       alignItems: "center",
    },
+   smallFormHolder: {
+      // marginTop: 15,
+      display: 'flex',
+      justifyContent: "center",
+      alignItems: "center",
+   },
    input: {
       marginBottom: 20
    },
@@ -43,15 +52,6 @@ const useStyles = makeStyles({
       marginTop: 25
    }
 })
-// form styles
-const formStyle = {
-   display: 'flex',
-   flexDirection: 'column',
-   width: "60%",
-   margin: "25px 0",
-   padding: "40px",
-   boxShadow: "2px 2px 4px rgba(0,0,0,0.3)"
-}
 
 const LoginPage = () => {
 
@@ -65,6 +65,10 @@ const LoginPage = () => {
          history.push('/main')
       }
    }, [isLogged, history])
+
+   const theme = useTheme()
+   const screenSizeXSmall = useMediaQuery(theme.breakpoints.only('xs'))
+
 
    // DIALOG brak hasla
    // dialog state
@@ -106,14 +110,14 @@ const LoginPage = () => {
    return (
       <Container className={ classes.mainContainer }>
          <Typography
-            variant='h4'
+            variant={ screenSizeXSmall ? 'h5' : 'h4'}
             component='h4'
             align='center'
          >
             Zaloguj sie do panelu administracyjnego
          </Typography>
-         <Container className={ classes.formHolder }>
-            <form style={ formStyle } onSubmit={ formik.handleSubmit }>
+         <Container className={ screenSizeXSmall ? classes.smallFormHolder:classes.formHolder }>
+            <form className="form" onSubmit={ formik.handleSubmit }>
                <TextField
                   id='login'
                   name='login'

@@ -2,3 +2,21 @@
    margin: 0;
    padding: 0;
 }
+
+.form {
+   display: flex;
+   flex-direction: column;
+   width: 80%;
+   margin: 10px 0;
+   padding: 40px;
+}
+@media (min-width: 600px) {
+   .form {
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+   }
+}
+@media (min-width: 800px) {
+   .form {
+      width: 60%;
+   }
+}

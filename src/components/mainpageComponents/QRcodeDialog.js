@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 
 import QRCode from 'qrcode'
 
+import { useTheme } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
+
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Container from '@material-ui/core/Container'
@@ -23,8 +26,14 @@ const useStyles = makeStyles({
    qrHolder: {
       padding: 100
    },
+   smallQrHolder : {
+      padding: 50
+   },
    qrImg: {
       width: 250
+   },
+   smallQrImg: {
+      width: 200
    }
 })
 
@@ -35,6 +44,9 @@ const QRcodeDialog = ({ handeler, id }) => {
       QRCode.toDataURL(id, {errorCorrectionLevel: 'H'}).then(data=>setSrc(data))
    },[id])
 
+   const theme = useTheme()
+   const screenSizeXSmall = useMediaQuery(theme.breakpoints.only('xs'))
+
    const classes = useStyles()
 
    return (
@@ -42,8 +54,8 @@ const QRcodeDialog = ({ handeler, id }) => {
          <DialogTitle className={ classes.dialogTitle }>
             QR Code
          </DialogTitle>
-         <Container className={ classes.qrHolder }>
-            <img src={ src } alt="qrcode" className={ classes.qrImg }/>
+         <Container className={ screenSizeXSmall ? classes.smallQrHolder : classes.qrHolder }>
+            <img src={ src } alt="qrcode" className={ screenSizeXSmall ? classes.smallQrImg : classes.qrImg }/>
          </Container>
          <Button 
             color='secondary'

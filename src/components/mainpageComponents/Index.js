@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { useTheme } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
+
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import Button from '@material-ui/core/Button'
@@ -26,12 +29,15 @@ const useStyles = makeStyles({
 
 const Index = ({ handeler }) => {
 
+   const theme = useTheme()
+   const screenSizeXSmall = useMediaQuery(theme.breakpoints.only('xs'))
+
    const classes = useStyles()
 
    return (
       <Container className={ classes.contentHolder } >
          <Typography
-            variant='h3'
+            variant={ screenSizeXSmall ? 'h4' : 'h3'}
             component='h3'
             align='center'
             className={ classes.heading }

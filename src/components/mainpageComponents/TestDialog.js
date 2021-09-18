@@ -58,7 +58,6 @@ const TestDialog = ({ handeler, test }) => {
       qrHandeler.openQR()
    }
 
-
    const classes = useStyles()
 
    return (

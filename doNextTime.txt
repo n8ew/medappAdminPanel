@@ -1,2 +1,0 @@
-1. QR code generator
-2. responsiv design

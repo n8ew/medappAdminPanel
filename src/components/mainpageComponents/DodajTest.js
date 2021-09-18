@@ -3,6 +3,9 @@ import DbDataContext from '../../context/dbData/dbDataContext'
 
 import MoveBackBtn from './MoveBackBtn'
 
+import { useTheme } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
+
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import FormControl from '@material-ui/core/FormControl'
@@ -85,27 +88,21 @@ const DodajTest = ({ handeler }) => {
       }
    }
 
-   const classes = useStyles()
+   const theme = useTheme()
+   const screenSizeXSmall = useMediaQuery(theme.breakpoints.only('xs'))
 
-   const formStyle = {
-      display: 'flex',
-      flexDirection: 'column',
-      width: "50%",
-      margin: "25px 0",
-      padding: "40px",
-      boxShadow: "2px 2px 4px rgba(0,0,0,0.3)"
-   }
+   const classes = useStyles()
 
    return (
       <Container className={ classes.contentHolder }>
          <Typography
-            variant='h2'
-            component='h2'
+            variant={ screenSizeXSmall ? 'h3' : 'h3'}
+            component={ screenSizeXSmall ? 'h3' : 'h3'}
             align='center'
          >
             Dodaj Test
          </Typography>
-         <form style={ formStyle } onSubmit={ handleSubmit }>
+         <form className='form' onSubmit={ handleSubmit }>
             <FormControl className={ classes.selectHolder }>
                <InputLabel>Rodzaj testu:</InputLabel>
                <Select

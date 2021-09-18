@@ -44,13 +44,6 @@ const NavBar = () => {
             >
                MedApp
             </Typography>
-            <Typography
-               variant='h5'
-               component='h5'
-               className={ classes.text }
-            >
-               Panel Administracyjny
-            </Typography>
             <Button 
                className={ classes.text }
                style={{ visibility: isLogged? "visible": "hidden"}}
