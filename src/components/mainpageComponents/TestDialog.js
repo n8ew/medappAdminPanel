@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -10,38 +10,60 @@ import Button from '@material-ui/core/Button'
 import CloseIcon from '@material-ui/icons/Close';
 
 import { makeStyles } from '@material-ui/core'
+import QRcodeDialog from './QRcodeDialog'
 
 const useStyles = makeStyles({
    rowHolder: {
-      display: 'flex'
+      display: 'flex',
+      paddingLeft: 25
+   },
+   dialogTitle: {
+      borderBottom: '1px solid #333',
+      paddingRight: 75
    },
    heading: {
       textTransform: 'uppercase',
       marginTop: 20,
-      marginBottom: 20
+      marginBottom: 20,
+
    },
    label: {
       marginRight: 20
    },
-   btn: {
-      position: 'absolute',
-      bottom: 10,
-      right: 10
+   btnsHolder: {
+      marginBottom: 20
    },
    qrBtn: {
+      width: 125,
+      height: 50
+   },
+   closeBtn: {
       position: 'absolute',
-      right: 10,
-      bottom: 50
+      top: 15,
+      right: 5
    }
 })
 
 const TestDialog = ({ handeler, test }) => {
 
+   // QRcode Dialog State
+   const [open,setOpen] = useState(false)
+   const qrHandeler = {
+      isOpen : open,
+      openQR : () => setOpen(true),
+      closeQR : () => setOpen(false)
+   }
+
+   const handleQRbtn = () => {
+      qrHandeler.openQR()
+   }
+
+
    const classes = useStyles()
 
    return (
-      <Dialog open={ handeler.isOpen } onClose={ () => handeler.closeDialog() }>
-         <DialogTitle style={{ borderBottom: "1px solid #333"}}>
+      <Dialog open={ handeler.isOpen } onClose={ handeler.closeDialog }>
+         <DialogTitle className={ classes.dialogTitle } >
             Test ID: { test._id }
          </DialogTitle>
          <Container>
@@ -57,22 +79,23 @@ const TestDialog = ({ handeler, test }) => {
                   <DialogContentText>{param.value}</DialogContentText>
                </Container>
             ))}
-            <DialogActions>
+            <DialogActions className={ classes.btnsHolder }>
                <Button
                   color='primary'
                   variant='contained'
                   className={ classes.qrBtn }
-               >QR</Button>
-               <Button 
-                  color='secondary'
-                  variant='contained'
-                  className={ classes.btn }
-                  onClick={ () => handeler.closeDialog()}
-               >
-                  <CloseIcon/>
-               </Button>
+                  onClick={ handleQRbtn }
+               >QR Code</Button>
             </DialogActions>
          </Container>
+         <Button 
+            color='secondary'
+            onClick={ handeler.closeDialog }
+            className={ classes.closeBtn }
+         >
+            <CloseIcon/>
+         </Button>
+         <QRcodeDialog handeler={ qrHandeler } id={ test._id } />
       </Dialog>
    )
 }

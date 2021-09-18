@@ -47,7 +47,11 @@ const useStyles = makeStyles({
 const DodajTest = ({ handeler }) => {
 
    const dbDataContext = useContext(DbDataContext)
-   const { testsSchemas, addNewTest } = dbDataContext
+   const { testsSchemas, addNewTest, getTestsSchemas } = dbDataContext
+
+   useEffect(() => {
+      getTestsSchemas()
+   },[])
 
    const initialState = {testName: '', params: []}
 

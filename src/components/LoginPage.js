@@ -64,7 +64,7 @@ const LoginPage = () => {
       if(isLogged) {
          history.push('/main')
       }
-   }, [isLogged])
+   }, [isLogged, history])
 
    // DIALOG brak hasla
    // dialog state

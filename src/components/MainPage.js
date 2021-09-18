@@ -22,18 +22,13 @@ const MainPage = () => {
    const history = useHistory()
 
    const dbDataContext = useContext(DbDataContext)
-   const { isLogged, getTests, getTestsSchemas, tests } = dbDataContext
+   const { isLogged } = dbDataContext
 
    useEffect(() => {
       if(!isLogged) {
          history.push('/')
       }
-   }, [isLogged])
-
-   useEffect(() => {
-      getTests()
-      getTestsSchemas()
-   },[tests])
+   }, [isLogged, history])
 
    return (
       <Container>

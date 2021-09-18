@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import DbDataContext from '../../context/dbData/dbDataContext'
 
 import TestDialog from './TestDialog'
@@ -47,7 +47,11 @@ const useStyles = makeStyles({
 const Testy = ({ handeler }) => {
 
    const dbDataContext = useContext(DbDataContext)
-   const { tests, deleteTest } = dbDataContext
+   const { tests, deleteTest, getTests } = dbDataContext
+
+   useEffect(() => {
+      getTests()
+   }, [])
 
    // Test for dialog state holder
    const [testForDialog,setTestForDialog] = useState('')
