@@ -8,6 +8,8 @@ import {
 
 const DbDataProvider = props => {
 
+   const url = 'https://medd-app-server.herokuapp.com'
+
    const initialState = {
       isLogged: false,
       loading: false,
@@ -24,7 +26,7 @@ const DbDataProvider = props => {
    const loginAdmin = async (data) => {
       setLoading()
 
-      const res = await axios.post('/api/v1/admin',data)
+      const res = await axios.post(`${ url }/api/v1/admin`,data)
       dispatch({
          type: LOGIN_ADMIN,
          payload: res.data.success
@@ -35,7 +37,7 @@ const DbDataProvider = props => {
    // getTests
    const getTests = async () => {
       setLoading()
-      const res = await axios.get('/api/v1/docs')
+      const res = await axios.get(`${ url }/api/v1/docs`)
       dispatch({
          type: GET_TESTS,
          payload: res.data.docs
@@ -44,7 +46,7 @@ const DbDataProvider = props => {
    // getTestsSchemas
    const getTestsSchemas = async() => {
       setLoading()
-      const res = await axios.get('/api/v1/testsSchema')
+      const res = await axios.get(`${ url }/api/v1/testsSchema`)
       dispatch({
          type: GET_TESTS_SCHEMAS,
          payload: res.data.tests
@@ -53,7 +55,7 @@ const DbDataProvider = props => {
    // addNewTest
    const addNewTest = async (data) => {
       setLoading()
-      const res = await axios.post('/api/v1/docs', data)
+      const res = await axios.post(`${ url }/api/v1/docs`, data)
       dispatch({
          type: ADD_NEW_TEST,
          payload: res.data.docs
@@ -62,7 +64,7 @@ const DbDataProvider = props => {
    // deleteTest
    const deleteTest = async (id) => {
       setLoading()
-      await axios.delete(`/api/v1/docs/${id}`)
+      await axios.delete(`${ url }/api/v1/docs/${ id }`)
       dispatch({
          type: DELETE_TEST,
          payload: id
